@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "1098152423736",
+    "firebase_url": "https://online-shop-95cdb-default-rtdb.firebaseio.com",
+    "project_id": "online-shop-95cdb",
+    "storage_bucket": "online-shop-95cdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1098152423736:android:8b64a05e172ab230f811cd",
+        "android_client_info": {
+          "package_name": "com.example.application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOUZcs13Vms-3xX9yDkPYClFHqHIPP-Sg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1098152423736:android:7eb4dfa5af46ae7ef811cd",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOUZcs13Vms-3xX9yDkPYClFHqHIPP-Sg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

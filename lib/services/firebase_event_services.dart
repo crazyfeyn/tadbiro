@@ -140,23 +140,25 @@ class FirebaseEventServices {
 
   Stream<QuerySnapshot> getRecentSevenDaysEvents() {
     DateTime today = DateTime.now();
-    DateTime sevenDaysAgo = today.subtract(Duration(days: 7));
+    DateTime sevenDaysLater = today.add(Duration(days: 7));
 
     return eventCollection
+        .where('dateTime', isGreaterThanOrEqualTo: Timestamp.fromDate(today))
         .where('dateTime',
-            isGreaterThanOrEqualTo: Timestamp.fromDate(sevenDaysAgo))
+            isLessThanOrEqualTo: Timestamp.fromDate(sevenDaysLater))
         .snapshots();
   }
 
   Future<QuerySnapshot> getRecentSevenDaysEventsByIndividuallyParticipated(
       String userId) async {
     DateTime today = DateTime.now();
-    DateTime sevenDaysAgo = today.subtract(Duration(days: 7));
+    DateTime sevenDaysLater = today.add(Duration(days: 7));
 
     return await eventCollection
+        .where('dateTime', isGreaterThanOrEqualTo: Timestamp.fromDate(today))
         .where('dateTime',
-            isGreaterThanOrEqualTo: Timestamp.fromDate(sevenDaysAgo))
-        .where('participants.$userId', isGreaterThan: 0)
+            isLessThanOrEqualTo: Timestamp.fromDate(sevenDaysLater))
+        .where('participants', arrayContains: userId)
         .get();
   }
 
@@ -195,5 +197,4 @@ class FirebaseEventServices {
         .where('participants.$userId', isGreaterThan: 0)
         .snapshots();
   }
-
 }

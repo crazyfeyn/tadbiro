@@ -45,14 +45,6 @@ class EventController extends ChangeNotifier {
         eventDescription, currentLocation, imageFile, locationName);
   }
 
-  Future<void> likeEvent(String eventId, String userId) async {
-    return firebaseEventServices.likeEvent(eventId, userId);
-  }
-
-  Future<void> unlikeEvent(String eventId, String userId) async {
-    return firebaseEventServices.unlikeEvent(eventId, userId);
-  }
-
   Stream<QuerySnapshot> getRecentSevenDaysEvents() {
     return firebaseEventServices.getRecentSevenDaysEvents();
   }
@@ -62,14 +54,10 @@ class EventController extends ChangeNotifier {
     final isLiked = event.likedUsers.contains(userId);
 
     if (isLiked) {
-      unlikeEvent(event.eventId, userId);
-    } else {
-      likeEvent(event.eventId, userId);
-    }
-
-    if (isLiked) {
+      firebaseEventServices.unlikeEvent(event.eventId, userId);
       event.likedUsers.remove(userId);
     } else {
+      firebaseEventServices.likeEvent(event.eventId, userId);
       event.likedUsers.add(userId);
     }
 
@@ -85,7 +73,9 @@ class EventController extends ChangeNotifier {
     return firebaseEventServices.participatedEvents(userId);
   }
 
-  Future<QuerySnapshot> getRecentSevenDaysEventsByIndividuallyParticipated(String userId) {
-    return firebaseEventServices.getRecentSevenDaysEventsByIndividuallyParticipated(userId);
+  Future<QuerySnapshot> getRecentSevenDaysEventsByIndividuallyParticipated(
+      String userId) {
+    return firebaseEventServices
+        .getRecentSevenDaysEventsByIndividuallyParticipated(userId);
   }
 }

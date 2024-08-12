@@ -39,7 +39,6 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) {
             return RegisterEventController();
           }),
-          
         ],
         builder: (context, child) {
           return ScreenUtilInit(
@@ -52,7 +51,7 @@ class _MyAppState extends State<MyApp> {
                     stream: FirebaseAuth.instance.authStateChanges(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return const HomeScreen();
+                        return const SignInScreen();
                       } else {
                         return const SignInScreen();
                       }

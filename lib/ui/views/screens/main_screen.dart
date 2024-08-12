@@ -111,8 +111,8 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
                     isSearched
-                        ? PopupMenuItem(child: Text('data'))
-                        : SizedBox(),
+                        ? const PopupMenuItem(child: Text('data'))
+                        : const SizedBox(),
                     SizedBox(height: 10.h),
                     Row(
                       children: [
@@ -123,7 +123,7 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     Container(
                       height: 300,
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: CarouselSlider(
                         options: CarouselOptions(
                           height: 280,
@@ -139,8 +139,6 @@ class _MainScreenState extends State<MainScreen> {
                         items: events.map((event) {
                           final isLiked = event.likedUsers
                               .contains(FirebaseAuth.instance.currentUser!.uid);
-                          String period =
-                              event.dateTime.toDate().hour < 12 ? 'AM' : 'PM';
 
                           return Builder(
                             builder: (BuildContext context) {

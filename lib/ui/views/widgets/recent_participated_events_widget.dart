@@ -23,7 +23,7 @@ class _RecentParticipatedEventsWidgetState
       stream: context.read<EventController>().getRecentSevenDaysEvents(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
           return Center(
@@ -31,7 +31,7 @@ class _RecentParticipatedEventsWidgetState
           );
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return Center(
+          return const Center(
             child: Text('You have not participated in any events yet'),
           );
         }

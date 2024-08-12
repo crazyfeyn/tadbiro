@@ -72,6 +72,7 @@ class FirebaseAuthServices {
   }
 
   Stream<DocumentSnapshot> getCurrentUsers() {
+    print(FirebaseAuth.instance.currentUser!.uid);
     return userCollection
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .snapshots();

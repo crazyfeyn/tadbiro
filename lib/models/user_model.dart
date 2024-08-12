@@ -27,13 +27,13 @@ class UserModel {
     }
 
     return UserModel(
-      id: query.id,
-      curLocateName: data['curLocateName'] ?? '',
-      lat: data['lat'] ?? 0.0,
-      lng: data['lng'] ?? 0.0,
-      email: data['email'] ?? '',
-      fullName: data['name'] ?? '',
-      profileImage: data['imageUrl'] ??
+      id: query.id as String? ?? 'wh',
+      curLocateName: data['curLocateName'] as String? ?? '',
+      lat: data['lat'] as double? ?? 0.0,
+      lng: data['lng'] as double? ?? 0.0,
+      email: data['email'] as String? ?? '',
+      fullName: data['name'] as String? ?? '',
+      profileImage: data['imageUrl'] as String? ??
           'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg',
     );
   }

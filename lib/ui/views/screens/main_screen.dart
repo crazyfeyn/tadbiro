@@ -60,6 +60,11 @@ class _MainScreenState extends State<MainScreen> {
                   child: Text('Error: ${snapshot.error}'),
                 );
               }
+              if (snapshot.data!.docs.isEmpty) {
+                return const Center(
+                  child: Text('There is no event inn near 7 days'),
+                );
+              }
 
               final events = snapshot.data!.docs
                   .map((doc) => EventModel.fromDocumentSnapshot(doc))

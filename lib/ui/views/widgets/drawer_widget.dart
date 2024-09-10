@@ -7,8 +7,8 @@ import 'package:flutter_application_1/ui/views/screens/my_events_screen.dart';
 import 'package:flutter_application_1/utils/app_constanst.dart';
 
 class DrawerWidget extends StatelessWidget {
-  UserModel currentUserData;
-  DrawerWidget({super.key, required this.currentUserData});
+  final UserModel currentUserData;
+  const DrawerWidget({super.key, required this.currentUserData});
 
   @override
   Widget build(BuildContext context) {

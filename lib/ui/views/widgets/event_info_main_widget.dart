@@ -6,12 +6,12 @@ import 'package:flutter_application_1/utils/app_constanst.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EventInfoMainWidget extends StatelessWidget {
-  String formattedDate;
-  String formattedTime;
-  EventModel event;
-  UserModel? user;
-  DateTime eventDateTime;
-  EventInfoMainWidget(
+  final String formattedDate;
+  final String formattedTime;
+  final EventModel event;
+  final UserModel? user;
+  final DateTime eventDateTime;
+  const EventInfoMainWidget(
       {super.key,
       required this.formattedDate,
       required this.event,

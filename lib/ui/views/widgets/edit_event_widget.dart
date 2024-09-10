@@ -15,8 +15,8 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class EditEventWidget extends StatefulWidget {
-  String eventId;
-   EditEventWidget({Key? key,required this.eventId}) : super(key: key);
+  final String eventId;
+   const EditEventWidget({Key? key,required this.eventId}) : super(key: key);
 
   @override
   State<EditEventWidget> createState() => _EditEventWidgetState();
@@ -130,6 +130,7 @@ class _EditEventWidgetState extends State<EditEventWidget> {
       );
       String eventDescription = _eventDescController.text;
 
+      // ignore: use_build_context_synchronously
       context.read<EventController>().editEvent(
           widget.eventId,
           eventTitle,
@@ -143,9 +144,11 @@ class _EditEventWidgetState extends State<EditEventWidget> {
           _isLoading = false;
         });
 
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Event saved successfully!')),
         );
+        // ignore: use_build_context_synchronously
         Navigator.of(context).pop();
       } catch (e) {
         setState(() {
@@ -456,6 +459,7 @@ class _EditEventWidgetState extends State<EditEventWidget> {
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 4.w),
                                         child: GoogleMap(
+                                          // ignore: prefer_collection_literals
                                           gestureRecognizers: Set()
                                             ..add(Factory<
                                                     EagerGestureRecognizer>(

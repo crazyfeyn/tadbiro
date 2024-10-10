@@ -38,7 +38,8 @@ class EventModel {
         imageUrl: data['imageUrl'],
         locationName: data['locationName'] ?? '',
         likedUsers: data['LikedUsers'],
-        participants: data['participants']);
+        participants: data['participants'],
+        );
   }
 
   

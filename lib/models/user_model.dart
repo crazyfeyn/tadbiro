@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
   String id;
-  String curLocateName;
-  num lat;
-  num lng;
+  String? curLocateName;
+  num? lat;
+  num? lng;
   String email;
   String fullName;
   String profileImage;
@@ -27,7 +27,7 @@ class UserModel {
     }
 
     return UserModel(
-      id: query.id as String? ?? 'wh',
+      id: query.id as String? ?? '00',
       curLocateName: data['curLocateName'] as String? ?? '',
       lat: data['lat'] as double? ?? 0.0,
       lng: data['lng'] as double? ?? 0.0,

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/user_model.dart';
 import 'package:flutter_application_1/services/firebase_auth_services.dart';
 
 class AuthController extends ChangeNotifier {
@@ -22,5 +23,9 @@ class AuthController extends ChangeNotifier {
 
   Stream<DocumentSnapshot> getCurrentUsers() {
     return firebaseAuthServices.getCurrentUsers();
+  }
+
+  Future<UserModel?> checkToken() async {
+    return firebaseAuthServices.checkToken();
   }
 }

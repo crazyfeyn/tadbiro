@@ -1,3 +1,5 @@
+import 'package:flutter_application_1/models/event_model.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
 
 class LocationService {
@@ -6,10 +8,6 @@ class LocationService {
   static bool _isServiceEnabled = false;
   static PermissionStatus _permissionStatus = PermissionStatus.denied;
   static LocationData? currentLocation;
-
-  // static Future<void> init() async{
-
-  // }
 
   static Future<void> _checkService() async {
     _isServiceEnabled = await _location.serviceEnabled();
@@ -40,13 +38,4 @@ class LocationService {
     }
     return LocationData.fromMap({'a': 2});
   }
-
-  static Future<void> init() async {
-    await _checkPermission();
-    await _checkService();
-  }
-
-  // static Stream<LocationData> getLiveLocation() async* {
-  //   yield* _location.onLocationChanged;
-  // }
 }

@@ -16,7 +16,7 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class AddEventWidget extends StatefulWidget {
-  const AddEventWidget({Key? key}) : super(key: key);
+  const AddEventWidget({super.key});
 
   @override
   State<AddEventWidget> createState() => _AddEventWidgetState();

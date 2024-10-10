@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
       stream: context.read<AuthController>().getCurrentUsers(),
-      builder: (context, snapshot) {      
+      builder: (context, snapshot) {
         Widget body;
 
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -35,12 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Text('error'),
           );
         } else if (!snapshot.hasData) {
-          print('No data in snapshot');
           body = const Center(
             child: Text('No user data available'),
           );
         } else if (!snapshot.data!.exists) {
-          print('Document does not exist');
           body = const Center(
             child: Text('No user data available'),
           );

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +12,11 @@ import 'package:flutter_application_1/ui/views/widgets/event_info_widget.dart';
 import 'package:flutter_application_1/utils/app_constanst.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class MainScreen extends StatefulWidget {
   final UserModel currentUserData;
 
-  MainScreen({Key? key, required this.currentUserData}) : super(key: key);
+  const MainScreen({super.key, required this.currentUserData});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -27,11 +27,17 @@ class _MainScreenState extends State<MainScreen> {
   String searchQuery = '';
   TextEditingController searchController = TextEditingController();
   bool isSearched = false;
+
   @override
   Widget build(BuildContext context) {
     void onSearchChanged(String query) {
       if (debounce?.isActive ?? false) debounce!.cancel();
-      debounce = Timer(const Duration(milliseconds: 300), () {});
+      debounce = Timer(const Duration(seconds: 1), () {
+        setState(() {
+          searchQuery = query;
+          isSearched = query.isNotEmpty;
+        });
+      });
     }
 
     return Scaffold(
@@ -39,10 +45,6 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         title: const Text('Home screen'),
         centerTitle: true,
-        actions: const [
-          Icon(Icons.notifications_none_outlined),
-          SizedBox(width: 20),
-        ],
       ),
       drawer: DrawerWidget(currentUserData: widget.currentUserData),
       body: Column(
@@ -62,7 +64,7 @@ class _MainScreenState extends State<MainScreen> {
               }
               if (snapshot.data!.docs.isEmpty) {
                 return const Center(
-                  child: Text('There is no event inn near 7 days'),
+                  child: Text('There is no event in the near 7 days'),
                 );
               }
 
@@ -102,16 +104,6 @@ class _MainScreenState extends State<MainScreen> {
                             color: AppConstants.orangeColor,
                             width: 3.0,
                           ),
-                        ),
-                        suffixIcon: PopupMenuButton(
-                          itemBuilder: (context) {
-                            return [
-                              const PopupMenuItem(
-                                  child: Text("Search by event name")),
-                              const PopupMenuItem(
-                                  child: Text("search by near location")),
-                            ];
-                          },
                         ),
                       ),
                     ),
@@ -276,20 +268,17 @@ class _MainScreenState extends State<MainScreen> {
 
                 final events = snapshot.data!.docs
                     .map((doc) => EventModel.fromDocumentSnapshot(doc))
+                    .where((event) =>
+                        event.title
+                            .toLowerCase()
+                            .contains(searchQuery.toLowerCase()) ||
+                        event.description
+                            .toLowerCase()
+                            .contains(searchQuery.toLowerCase()))
                     .toList();
 
                 return Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(width: 5.w),
-                        Text(
-                          'All events',
-                          style: AppConstants.mainTextStyle,
-                        ),
-                      ],
-                    ),
                     Expanded(
                       child: ListView.builder(
                         itemCount: events.length,
@@ -301,82 +290,29 @@ class _MainScreenState extends State<MainScreen> {
 
                           String formattedDate =
                               '${event.dateTime.toDate().hour}:${event.dateTime.toDate().minute.toString().padLeft(2, '0')} $period '
-                              '${Getdate.getMonthName(event.dateTime.toDate().month)} '
-                              '${event.dateTime.toDate().day} ';
+                              '${event.dateTime.toDate().day} ${Getdate.getMonthName(event.dateTime.toDate().month)}';
 
-                          final isLiked = event.likedUsers
-                              .contains(FirebaseAuth.instance.currentUser!.uid);
-
-                          return InkWell(
-                            onTap: () {
-                              Navigator.push(
+                          return Card(
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: event.imageUrl != null
+                                    ? NetworkImage(event.imageUrl!)
+                                    : const NetworkImage(
+                                        'https://t4.ftcdn.net/jpg/02/16/94/65/360_F_216946587_rmug8FCNgpDCPQlstiCJ0CAXJ2sqPRU7.jpg'),
+                              ),
+                              title: Text(event.title),
+                              subtitle: Text(formattedDate),
+                              trailing: const Icon(Icons.arrow_forward_ios),
+                              onTap: () {
+                                Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          EventInfoWidget(event: event)));
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                      color: Colors.grey.shade300, width: 1.0),
-                                ),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    clipBehavior: Clip.hardEdge,
-                                    margin: const EdgeInsets.only(right: 16.0),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(7)),
-                                    width: 100,
-                                    height: 100,
-                                    child: Image.network(
-                                      event.imageUrl ??
-                                          'https://t4.ftcdn.net/jpg/02/16/94/65/360_F_216946587_rmug8FCNgpDCPQlstiCJ0CAXJ2sqPRU7.jpg',
-                                      fit: BoxFit.cover,
+                                    builder: (context) => EventInfoWidget(
+                                      event: event,
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          event.title,
-                                          style: AppConstants.mainTextStyle,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        Text(
-                                          'date: $formattedDate',
-                                          style: AppConstants.eventInfotext,
-                                        ),
-                                        Text(
-                                          'location: ${event.locationName!}',
-                                          style: AppConstants.eventInfotext,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      context
-                                          .read<EventController>()
-                                          .toggleLike(event, context);
-                                    },
-                                    child: CircleAvatar(
-                                      child: Icon(
-                                        isLiked
-                                            ? Icons.favorite
-                                            : Icons.favorite_outline,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                );
+                              },
                             ),
                           );
                         },

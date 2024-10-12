@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controller/auth_controller.dart';
+import 'package:flutter_application_1/ui/views/screens/forgot_password_screen.dart';
 import 'package:flutter_application_1/ui/views/screens/home_screen.dart';
 import 'package:flutter_application_1/ui/views/screens/sign_up_screen.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +43,6 @@ class _SignInScreenState extends State<SignInScreen> {
       }
     } else {
       showDialog(
-        // ignore: use_build_context_synchronously
         context: context,
         builder: (context) {
           return AlertDialog(
@@ -73,127 +73,141 @@ class _SignInScreenState extends State<SignInScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
           padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const SizedBox(),
+                const SizedBox(height: 20), // Added some space at the top
                 Image.asset('assets/images/logo.png'),
-                SizedBox(
-                  height: 192,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Your email',
-                            style: TextStyle(
-                                color: Color(0xFF24786D),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 17),
-                          ),
-                          TextFormField(
-                            controller: _emailController,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: const InputDecoration(),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your email';
-                              }
-                              if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                                  .hasMatch(value)) {
-                                return 'Please enter a valid email address';
-                              }
-                              return null;
-                            },
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Your password',
-                            style: TextStyle(
-                                color: Color(0xFF24786D),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 17),
-                          ),
-                          TextFormField(
-                            controller: _passwordController,
-                            decoration: const InputDecoration(),
-                            obscureText: true,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your password';
-                              }
-                              if (value.length < 6) {
-                                return 'Password must be at least 6 characters long';
-                              }
-                              return null;
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                const SizedBox(height: 20), // Added space below the logo
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Your email',
+                      style: TextStyle(
+                          color: Color(0xFF24786D),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 17),
+                    ),
+                    TextFormField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your email';
+                        }
+                        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                          return 'Please enter a valid email address';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16), // Added spacing
+                    const Text(
+                      'Your password',
+                      style: TextStyle(
+                          color: Color(0xFF24786D),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 17),
+                    ),
+                    TextFormField(
+                      controller: _passwordController,
+                      decoration: const InputDecoration(),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        if (value.length < 6) {
+                          return 'Password must be at least 6 characters long';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  height: 145,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            checkSignIn();
-                          }
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(17),
-                          alignment: Alignment.center,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              color: const Color(0xFF24786D),
-                              borderRadius: BorderRadius.circular(20)),
-                          child: isDownloaded1
-                              ? const CircularProgressIndicator()
-                              : const Text('Log In',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20,
-                                      color: Colors.white)),
+                const SizedBox(height: 20), // Added spacing
+                Column(
+                  mainAxisSize: MainAxisSize.min, // Adjust size
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        if (_formKey.currentState!.validate()) {
+                          checkSignIn();
+                        }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(17),
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: const Color(0xFF24786D),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: isDownloaded1
+                            ? const CircularProgressIndicator()
+                            : const Text('Log In',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20,
+                                    color: Colors.white)),
+                      ),
+                    ),
+                    const SizedBox(height: 16), // Added spacing
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SignUpScreen()));
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(17),
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: const Text('Sign up',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                                color: Color(0xFF24786D))),
+                      ),
+                    ),
+                    const SizedBox(height: 16), // Added spacing
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ForgotPasswordScreen(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(17),
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                            color: Color(0xFF24786D),
+                          ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SignUpScreen()));
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(17),
-                          alignment: Alignment.center,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(20)),
-                          child: const Text('Sign up',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 20,
-                                  color: Color(0xFF24786D))),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

@@ -4,7 +4,7 @@
 <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="flutter_application_1"
+        android:label="tadbiro"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
